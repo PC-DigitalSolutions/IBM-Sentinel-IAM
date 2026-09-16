@@ -1,0 +1,13 @@
+# Keep Bob focused — don't let it read/scan these (saves Bobcoins)
+node_modules/
+.venv/
+venv/
+__pycache__/
+.git/
+dist/
+build/
+*.log
+*.lock
+.env
+.env.*
+bob_sessions/
