@@ -1,31 +1,38 @@
-# CyberShield — Sentinel IAM
+# Sentinel IAM: Agent Context for Bob
 
-Agentic AI access & threat-response copilot for banking. Built for the IBM SkillsBuild AI Experiential Learning Lab (Banking & Financial Services). IBM Bob is the core build tool; the multi-agent layer runs on watsonx Orchestrate.
+Built for the IBM SkillsBuild AI Experiential Learning Lab (Fall 2026), Banking & Financial Services track, by Team Bastion. IBM Bob is the core build tool, and the agent runs on watsonx Orchestrate.
 
-## What this project is
-A team of specialized agents watch threats, triage suspicious access events against the live threat picture, and **recommend** IAM responses to a human analyst who approves the action. Human-in-the-loop by design: agents propose, a person decides.
+## Scope (read first)
+**One agent. One problem. One solution.** (Coach direction, Sept 25 2026.) Do not add more agents.
 
-## Agents
-- **Sentinel** — primary orchestrator + analyst-facing copilot. Delegates to the collaborators, explains every decision in plain language.
-- **Watchtower** — threat-intelligence agent. Reports what's currently threatening the bank's stack.
-- **Gatekeeper** — IAM/access triage. Risk-scores an auth/access event against Watchtower's current picture.
-- **Custodian** — secrets & response. Proposes a concrete action (rotate credential / step-up auth / revoke token). **Never acts without human approval.**
+- **Problem:** a bank SOC/IAM analyst needs about an hour to investigate one suspicious login by hand. Stolen credentials are the #1 initial access vector.
+- **Solution:** **Sentinel**, a single agent. Given a suspicious-login alert, it chooses which tools to call, explains the risk in plain language, and recommends ONE action. A human approves every action, and Sentinel never executes it.
 
-## Backend (reused, do not rebuild)
-The analysis + threat feed comes from an existing FastAPI service (`CyberShield_IV`, runs on port 8000). Agents call it as tools; it is signal-agnostic. Endpoints:
-- `GET /threats/live?limit=` — live classified threat feed (Watchtower)
-- `GET /threats/history?limit=&kind=` — durable archive (Watchtower)
-- `GET /analyze?signal=` — verdict + specialist reports for a signal (Gatekeeper)
-- `POST /analyze/file` — multimodal evidence analysis (Gatekeeper)
-- `POST /sentinel/chat` — analyst conversation (Sentinel)
-- `GET /status` — health
+## The agent: Sentinel
+- Input: login alert `{user_id, ip, device_id, geo, timestamp}`
+- Output: risk level (Low/Medium/High/Critical) + why + tools it called + one recommended action + a request for approval
+- Action map: Low → no action · Medium → step-up MFA · High → revoke session · Critical → revoke session + reset credential
+- Instructions: `agents/sentinel.instructions.md`
 
-## Domain language
-This is a **banking** context. Signals are auth events, credential exposures, fraud indicators, session anomalies — not physical-event or concert threats. Keep vocabulary financial-sector and IAM-focused.
+## Tools (3 total)
+The backend is the existing FastAPI service in `C:\CyberLab\CyberShield_IV` (run with `uvicorn src.api.main:app --port 8000`). Reuse it. Do not rebuild it.
 
-## Conventions for Bob
-- Small, single-purpose changes per task so each session closes cleanly.
-- Prefer wiring real endpoints over mocking data.
-- Any response action is **recommend-then-approve**; never auto-execute a credential change.
-- Document new agents/tools here in AGENTS.md as they're added.
-- Session reports are a graded deliverable — do not squash task history; export each task's session summary to `bob_sessions/`.
+| Tool | Endpoint | Status |
+|---|---|---|
+| `assess_login` | `POST /iam/assess-login` | **NEW**: see `docs/bob-tasks/task-02-assess-login.md` |
+| `get_live_threats` | `GET /threats/live?limit=` | Existing |
+| `analyze_signal` | `GET /analyze?signal=` | Existing (calls Gemini; needs `CYBERSHIELD_API_KEY`) |
+
+Other existing endpoints (`/sentinel/chat`, `/analyze/file`, `/threats/history`) are **out of scope**. Don't wire them.
+
+## Test data
+- `tests/fixtures/iam_baselines.json`: user baselines, city coordinates, threat-listed IPs (RFC 5737 documentation IPs only, never real ones)
+- `tests/scenarios.json`: 6 scenarios with expected flags, score, level and action. **This is the definition of done.**
+
+## Conventions for Bob (credits are limited)
+- One small task per session. Task prompts are in `docs/bob-tasks/`. Stop when the "Done when" condition is met.
+- Only read the files a task names. Don't scan the whole backend.
+- `assess_login` is **deterministic**: no LLM calls, no network, no database. It reads the JSON seed data.
+- Never auto-execute a credential change. Responses are always recommend-then-approve.
+- Don't commit secrets. `.env` stays gitignored.
+- Session reports are graded: export each task's summary screenshot to `bob_sessions/`.
