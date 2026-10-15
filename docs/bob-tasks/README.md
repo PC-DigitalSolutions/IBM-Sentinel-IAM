@@ -5,7 +5,7 @@ Hand Bob **one file per session**. Each has a "Done when" condition, so stop the
 | # | Task | Est. credits | Status |
 |---|---|---|---|
 | 01 | Repo scaffold + AGENTS.md | done (prepared outside Bob) | ✅ |
-| 02 | `POST /iam/assess-login` + tests | medium | 🟨 Built in `CyberShield_IV` (uncommitted; 6/6 tests pass, checked Oct 15). No Bob session report in `bob_sessions/` yet. Aldo to confirm it was a Bob session |
+| 02 | `POST /iam/assess-login` + tests | medium | ✅ Built by IBM Bob on Oct 3, 2026 (Bob task "HI BOB WE STARTING THE AI EXPERIENTIAL BUILT TASK 02…"); pushed to `CyberShield_IV` (c3827d9), 6/6 tests pass, live on Render. **Export its consumption screenshot to `bob_sessions/`** |
 | 03 | Re-point the live threat feed to banking | low | ⬜ |
 | 03b | 5-minute failure flag inside `assess_login` | low | ⬜ Ready. Decisions (Oct 15): the count lives inside `assess_login`; 2 failures in 5 minutes flags the case |
 | 04 | OpenAPI tool spec + import the 3 tools into Orchestrate | low–medium | ⬜ |
