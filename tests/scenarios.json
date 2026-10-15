@@ -1,5 +1,5 @@
 {
-  "_note": "Definition of done for assess_login (expect.flags/score/level) and for the Sentinel agent (expect.tools/action). Flags are listed in scoring order.",
+  "_note": "Definition of done for assess_login (expect.flags/score/level) and for the Sentinel agent (expect.tools/action). Flags are listed in scoring order. expect.tools is the typical path, not a required order: the agent is judged on the outcome and its stated reasons. Scenarios I, K and L need seed-data additions from Bob Task 03b and are defined in docs/testing/test-sheet.md until then.",
   "scenarios": [
     {
       "id": "A",
@@ -48,6 +48,21 @@
       "name": "Unknown user (error handling)",
       "request": {"user_id": "nobody", "ip": "198.51.100.1", "device_id": "x", "geo": "Newark, US", "timestamp": "2026-10-02T14:00:00Z"},
       "expect": {"http_status": 404}
+    },
+    {
+      "id": "H",
+      "name": "Conflicting signals: known device, home city, business hours, but the IP is on the threat list",
+      "request": {"user_id": "jdoe", "ip": "192.0.2.144", "device_id": "win-jdoe-laptop", "geo": "Newark, US", "timestamp": "2026-10-02T15:00:00Z"},
+      "expect": {"flags": ["ip_on_threat_list"], "risk_score": 30, "risk_level": "Medium",
+                 "tools": ["assess_login", "get_live_threats"], "action": "step_up_mfa",
+                 "agent_must": "name the conflict (normal baseline vs threat-listed IP), gather evidence on the IP before recommending, and explain why step-up MFA ranks above revoke"}
+    },
+    {
+      "id": "J",
+      "name": "Re-plan after rejection: scenario A, analyst rejects revoke and reset",
+      "request": {"user_id": "jdoe", "ip": "203.0.113.66", "device_id": "win-unknown-7f2", "geo": "Lagos, NG", "timestamp": "2026-10-02T03:14:00Z"},
+      "expect": {"analyst_reply": "Reject revoke and reset. Give me another option.", "action_executed": false,
+                 "agent_must": "keep the case open, execute nothing, and present the next-best option (revoke session only, or step-up MFA) with its reason and what risk it leaves open"}
     }
   ]
 }

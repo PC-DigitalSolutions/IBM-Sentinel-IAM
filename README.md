@@ -2,10 +2,10 @@
 
 An agentic AI access & threat-response copilot for banking.
 
-Built for the **IBM SkillsBuild AI Experiential Learning Lab** (Fall 2026) — Banking & Financial Services theme. Core build tool: **IBM Bob**. Multi-agent layer: **watsonx Orchestrate**.
+Built for the **IBM SkillsBuild AI Experiential Learning Lab** (Fall 2026) — Banking & Financial Services theme. Core build tool: **IBM Bob**. The agent runs on **watsonx Orchestrate** (single native agent).
 
 ## The idea
-A bank analyst needs about an hour to investigate one suspicious login. **Sentinel** is a single AI agent that takes the alert, decides which tools to call, explains the risk in plain language, and recommends one response: step-up MFA, revoke the session, or reset the credential. **A human approves every action.**
+A bank analyst needs about an hour to investigate one suspicious login. **Sentinel** is a single AI agent that takes the alert, decides which tools to call, explains the risk in plain language, and ranks its recommended responses (no action, step-up MFA, revoke the session, reset the credential), each with a reason. **A human approves every action. Sentinel never executes one itself.**
 
 ## Architecture (short)
 Sentinel runs on watsonx Orchestrate and calls 3 tools on the existing FastAPI backend (`CyberShield_IV`): the new `assess_login`, plus `get_live_threats` and `analyze_signal`. See `AGENTS.md`.
@@ -18,4 +18,4 @@ Sentinel runs on watsonx Orchestrate and calls 3 tools on the existing FastAPI b
 - `bob_sessions/` — exported IBM Bob task session reports (**graded submission deliverable**)
 
 ## Status
-Build queue ready (`docs/bob-tasks/`). Next: Task 02. Build + test target: Oct 18.
+Build queue in `docs/bob-tasks/`. Team docs in `docs/team/`. Test sheet and timing protocol in `docs/testing/`. Build + test target: Oct 18 (`v1-tested`).

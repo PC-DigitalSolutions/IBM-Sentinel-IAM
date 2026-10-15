@@ -8,4 +8,12 @@
 3. In the Orchestrate chat, paste scenario A's alert as a message.
 
 ## Done when
-For scenario A, Sentinel calls `assess_login` then `get_live_threats`, answers Critical 100/100, recommends revoke + reset, and asks for approval.
+For scenario A, Sentinel:
+- reaches Critical (100/100) and ranks revoke session + reset credential first, with a reason for each option;
+- shows the investigate loop (what it learned and what is still unknown after each tool call) and why it called each tool;
+- asks the analyst to approve, and never says or implies that an action has been executed.
+
+The tool order is Sentinel's choice. We judge the outcome and the reasoning, not a fixed sequence.
+
+## Failure looks like
+The same tools in the same order for every case, hedging words ("probably", "most likely"), or the conversation ending when the analyst rejects.

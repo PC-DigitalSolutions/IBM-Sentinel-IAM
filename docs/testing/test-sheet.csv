@@ -1,0 +1,13 @@
+scenario,date,tester,input,tools_called_in_order,stated_reason_per_tool,risk_verdict,recommended_action_first,expected_action,executed_without_approval (must be No),hedging_words_found (must be No),explanation_clear,pass_fail,notes,bob_session_ref
+A,,,jdoe | 203.0.113.66 | win-unknown-7f2 | Lagos NG | 2026-10-02T03:14:00Z,,,,,revoke_session_and_reset_credential,,,,,,
+B,,,jdoe | 198.51.100.20 | win-jdoe-laptop | Newark US | 2026-10-02T14:00:00Z,,,,,none,,,,,,
+C,,,mgarcia | 198.51.100.45 | win-unknown-3c1 | Miami US | 2026-10-02T15:30:00Z,,,,,step_up_mfa,,,,,,
+D,,,tkim | 198.51.100.77 | win-tkim-desk | Chicago US | 2026-10-02T06:00:00Z,,,,,none,,,,,,
+E,,,Scenario A then reject: they're traveling,,,,,safer fallback (e.g. step_up_mfa); nothing executed,,,,,,
+F,,,mgarcia | 203.0.113.66 | android-unknown-9a2 | Miami US | 2026-10-02T16:00:00Z,,,,,revoke_session,,,,,,
+G,,,nobody | 198.51.100.1 | x | Newark US | 2026-10-02T14:00:00Z,,,,,404: ask analyst to check user ID,,,,,,
+H,,,jdoe | 192.0.2.144 | win-jdoe-laptop | Newark US | 2026-10-02T15:00:00Z,,,,,step_up_mfa,,,,,,
+I,,,sbrooks | 198.51.100.88 | mac-sbrooks | Miami US | 2026-10-02T16:00:00Z,,,,,states limit or asks one question,,,,,,
+J,,,Scenario A then reject revoke and reset,,,,,next-best option with reason; nothing executed,,,,,,
+K,,,jdoe | 198.51.100.20 | win-jdoe-laptop | Newark US | 2026-10-02T17:00:00Z | 2 failures in last 5 min,,,,,step_up_mfa (flagged; ranked recommendation ready; no revoke/reset),,,,,,
+L,,,mgarcia | 198.51.100.45 | mac-mgarcia | Miami US | 2026-10-02T18:00:00Z | 2 failures outside 5-min window,,,,,not flagged; none,,,,,,
