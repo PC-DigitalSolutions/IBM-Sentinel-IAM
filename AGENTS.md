@@ -28,6 +28,9 @@ The backend is the existing FastAPI service in `C:\CyberLab\CyberShield_IV` (run
 
 Other existing endpoints (`/sentinel/chat`, `/analyze/file`, `/threats/history`) are **out of scope**. Don't wire them.
 
+## Knowledge (1 knowledge base, not a tool)
+- `docs/knowledge/sentinel-response-playbook.md`: the bank IAM response playbook. It restates the settled rules (scoring, default responses, 5-minute failure rule, special cases, audit). Attached in Task 05b. Adding it does not change the 3 tools.
+
 ## Test data
 - `tests/fixtures/iam_baselines.json`: user baselines, city coordinates, threat-listed IPs (RFC 5737 documentation IPs only, never real ones)
 - `tests/scenarios.json`: scenarios A to G plus H and J, with expected flags, score, level and action. **This is the definition of done.** `expect.tools` is the typical path, not a required order.

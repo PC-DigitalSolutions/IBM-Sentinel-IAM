@@ -10,6 +10,7 @@ Hand Bob **one file per session**. Each has a "Done when" condition, so stop the
 | 03b | 5-minute failure flag inside `assess_login` | low | ⬜ Ready. Decisions (Oct 15): the count lives inside `assess_login`; 2 failures in 5 minutes flags the case |
 | 04 | OpenAPI tool spec + import the 3 tools into Orchestrate | low–medium | ⬜ |
 | 05 | Sentinel agent in Orchestrate | medium | ⬜ |
+| 05b | Attach the response playbook as a knowledge base | low | ⬜ After Task 05 and once the playbook is marked ready |
 | 06 | Run the scenarios through the agent + log results | low–medium | ⬜ |
 
 Build-ahead target: 02–06 done by **Oct 18** (scenarios A to L in `tests/scenarios.json` and `docs/testing/test-sheet.md`), before the official build phase and the **Oct 25 checkpoint**.

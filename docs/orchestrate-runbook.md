@@ -73,6 +73,14 @@ orchestrate agents list
 Choose a model from `models list` that supports tool calling. The agent's instructions come from `agents/sentinel.instructions.md` (v2).
 *UI alternative (Path A):* Build → Agents → Create agent → paste `sentinel.instructions.md` into Behavior → add the 3 tools.
 
+## 5b. Task 05b: attach the response playbook (knowledge base)
+```powershell
+orchestrate knowledge-bases import -f agents/sentinel-playbook.knowledge.yaml
+orchestrate agents import -f agents/sentinel.agent.yaml
+orchestrate agents list
+```
+Check the flags with `orchestrate knowledge-bases --help`. *UI alternative (Path A):* Build → Agents → `sentinel` → Knowledge → upload `docs/knowledge/sentinel-response-playbook.md`. **Done when:** `sentinel` shows 3 tools and 1 knowledge base.
+
 ## 6. Test in chat
 - **Path A:** Orchestrate Chat → select `sentinel`.
 - **Path B:** `orchestrate chat start`, then open the local chat UI it prints.

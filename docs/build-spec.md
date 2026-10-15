@@ -30,6 +30,7 @@
 | **Output** | Risk verdict (Low / Medium / High / Critical), a plain-language "why", and recommendations ranked best to lowest, each with a reason |
 | **Guardrail** | Recommends only. The analyst approves or rejects, and Sentinel never runs the action itself |
 | **Runs on** | watsonx Orchestrate, as a single native agent with 3 tools |
+| **Knowledge** | One knowledge base: the bank IAM response playbook (`docs/knowledge/sentinel-response-playbook.md`), retrieved to ground and cite recommendations. Knowledge, not a tool (Aldo, Oct 15) |
 
 The work that Watchtower, Gatekeeper and Custodian did in v1 is now **tools and steps inside Sentinel**. They are no longer separate agents.
 
@@ -118,6 +119,7 @@ Task prompts live in `sentinel-iam/docs/bob-tasks/`. Each is scoped to the files
 | 03b | 5-minute failure flag inside `assess_login` | Low | Failure tests for 1, 2, 3 and 4 failures and the window edges pass; A–H still pass |
 | 04 | OpenAPI spec for the 3 tools → import into Orchestrate | Low–Med | `orchestrate tools list` shows 3 tools |
 | 05 | Sentinel agent (instructions already drafted) | Medium | Scenario A handled end to end, investigate loop visible, nothing executed |
+| 05b | Attach the response playbook as Sentinel's knowledge base | Low | Agent shows 3 tools + 1 knowledge base; scenario H cites the playbook section |
 | 06 | Test pass + instruction fixes | Low–Med | Scenarios A–L pass, tag `v1-tested` |
 | — | Export `bob_sessions/` screenshots after every task | Free | **Eligibility gate** |
 
