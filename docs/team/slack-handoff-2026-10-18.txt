@@ -1,0 +1,194 @@
+===== MESSAGE 1 OF 5: OVERVIEW + WHERE WE ARE =====
+
+:shield: *Team Bastion | Sentinel IAM: Handoff & Role Sign-Up* (updated Oct 18)
+
+Hi team! This is the official handoff. There are 5 messages: overview → pick your role → technical tasks → research/demo tasks → timeline and rules. Please read them all and *claim your role in message 2 by Tue Oct 20, 6 PM*.
+
+*What we're building (one sentence)*
+Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login alert, chooses which tools to call, explains the risk in plain language, and ranks its recommended responses, each with a reason. *A human analyst approves every action. Sentinel never executes anything itself.*
+
+*:hammer_and_wrench: The Bob build has already started. Here's what's done:*
+• :white_check_mark: *Repo + `AGENTS.md`* (github.com/PC-DigitalSolutions/IBM-Sentinel-IAM)
+• :white_check_mark: *Task 02 `assess_login`, built by IBM Bob (Oct 3).* `POST /iam/assess-login` is live on Render: deterministic scoring (impossible travel +35, threat-listed IP +30, new device +25, off-hours +10), 6/6 tests passing
+• :white_check_mark: *Local Sentinel prototype, built by Bob (Oct 3 to 4).* The `sentinel_iam/` package in the repo has the agent loop, ranked actions, an approval gate, and Approve / Override / Reject handling. Run `sample_run.py` to see it. *This is our reference for the Orchestrate agent and our backup demo*
+• :white_check_mark: *Agent instructions drafted* in `agents/sentinel.instructions.md`
+• :white_check_mark: *Response playbook written* (`docs/knowledge/sentinel-response-playbook.md`). It's the content for Task 05b and only needs attaching
+• :white_check_mark: *Test plan* with scenarios A to H and J (`tests/scenarios.json`), plus the test sheet and timing protocol in `docs/testing/`
+• :white_check_mark: *Research evidence* (secondary sources) and the build spec
+
+*:hourglass_flowing_sand: Still to do*
+• Task 03: re-point the threat feed to banking
+• Task 03b: add the failure count to the live `assess_login`. The prototype still uses the *old* 15-minute rule and needs the same update
+• Task 04: import the 3 tools into Orchestrate (not started)
+• Task 05 + 05b: build the agent in Orchestrate and attach the playbook (not started)
+• Task 06: full test pass + `v1-tested` tag
+• Analyst interviews, our own timing, all written deliverables, video
+• :camera_with_flash: Export the 2 existing Bob session screenshots to `bob_sessions/` (Aldo)
+
+*:pushpin: Latest decisions (these override anything older you read)*
+1. One agent, not four. Reuse the existing backend (`CyberShield_IV`) plus *one* new tool.
+2. Recommendations are ranked best to lowest, each with a reason. Sentinel is decisive: no "probably" or "most likely."
+3. *Failure rule (updated Oct 15):* 2 failed logins within *5 minutes* flags the case. Sentinel investigates and has a ranked recommendation ready. A flagged case with a Low score ranks step-up MFA first. The count lives *inside `assess_login`*, not in a 4th tool. :no_entry_sign: The 15-minute window and the "4+ failures" tier are *retired*.
+4. Human approval is non-negotiable. Nothing executes without it.
+5. Where the docs disagree, `docs/build-spec.md` and `agents/sentinel.instructions.md` win.
+
+
+===== MESSAGE 2 OF 5: :raised_hand: PICK YOUR ROLE =====
+
+:raised_hand: *Choose your role!* Aldo stays Team Lead. There are *4 open roles for 4 of us*.
+
+*How to claim:* react to this message with the role's emoji *and* reply in thread with "I'm taking ___". First come, first served, one role each. If two people want the same role, talk it out in the thread. Aldo breaks ties. *Deadline: Tue Oct 20, 6 PM.* Any role still open then gets assigned.
+
+:crown: *Team Lead: Aldo (taken)*
+Guidance, coach/program contact, final call on design changes, reviews and approvals, submits the final package.
+
+:wrench: *Technical Lead* (open)
+_You own the build: the Sentinel agent itself._
+• Task 05: build the agent in watsonx Orchestrate (from the prototype + instructions)
+• Task 05b: attach the response playbook as a knowledge base
+• Audit log (one record per recommendation and decision)
+• Agent freeze on Nov 8; co-write the technology statement
+_Good fit if:_ you like prompt/agent design and debugging AI behavior. _Bob use:_ medium to high.
+
+:test_tube: *Technical Support / QA* (open)
+_You connect the pieces and prove they work._
+• Task 03 + 03b: banking threat feed + 5-minute failure count
+• Task 04: OpenAPI specs + import the 3 tools into Orchestrate (unblocks the Tech Lead)
+• Task 06: full test pass + `v1-tested` tag
+• Baseline timing (manual vs. Sentinel); checks `bob_sessions/` for the whole team
+_Good fit if:_ you like APIs, testing, and being the person who says "it actually works." _Bob use:_ medium.
+
+:books: *Research & Documentation Lead* (open)
+_You prove the problem is real and write the story down._
+• 3 to 5 analyst interviews (Aldo makes intros)
+• White paper / procedure manual
+• Written problem + solution + prototype link
+• Technology statement (final text, with the Tech Lead)
+_Good fit if:_ you like interviewing people, research and writing. _Bob use:_ low (still need 1+ session for `bob_sessions/`).
+
+:movie_camera: *Communications & Demo Lead* (open)
+_You turn the tested agent into what the judges see._
+• Demo script, Oct 25 checkpoint presentation
+• 3-minute video, showcase presentation
+• Weekly Slack status post for the coach; final packaging with Aldo
+_Good fit if:_ you like presenting, video and storytelling. _Bob use:_ low (still need 1+ session for `bob_sessions/`).
+
+:information_source: *Everyone must run at least one real Bob session and export its screenshot.* Each member's own reports count toward eligibility, so pick a role knowing that.
+
+
+===== MESSAGE 3 OF 5: TECHNICAL TASKS =====
+
+:wrench: *Technical tasks, in build order* (for whoever claims :test_tube: and :wrench:)
+Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bob session when you hit it.
+
+*:test_tube: QA: Task 03, banking threat feed* (Oct 21)
+• Re-point `GET /threats/live` to banking threats (credential theft, account takeover, phishing, MFA abuse)
+• _Done when:_ the feed returns banking headlines · _Evidence:_ sample response + Bob screenshot
+
+*:test_tube: QA: Task 03b, 5-minute failure count inside `assess_login`* (Oct 21 to 22)
+• Add the failure count to the live endpoint in `CyberShield_IV` (`src/iam/assess.py`). Rule: 2+ failures in 5 min flags the case
+• Update the prototype in `sentinel_iam/tools/assess_login.py` to the same rule (it still says 15 min / 4+)
+• Add scenarios I, K, L to `tests/scenarios.json`
+• _Evidence:_ responses for 0, 1, 2 and 3 failures, with the expected behavior beside each
+
+*:test_tube: QA: Task 04, import the 3 tools into Orchestrate* (Oct 22 to 23) :rotating_light: *blocks the Tech Lead*
+• Write OpenAPI specs for `assess_login`, `get_live_threats`, `analyze_signal` and import them
+• Point Orchestrate at the *Render URL* (already live). Fallbacks: `host.docker.internal:8000` (local ADK) or a `cloudflared` tunnel
+• _Done when:_ `orchestrate tools list` shows all 3 and one real call to each succeeds
+• _Handoff:_ post request/response shapes + known issues in Slack for the Tech Lead
+
+*:wrench: Tech Lead: get ready now, don't wait for Task 04* (Oct 21 to 23)
+• Run `sample_run.py` and study how the prototype agent reasons, ranks and gates approval. That's the behavior to recreate in Orchestrate
+• Finalize `agents/sentinel.instructions.md` against the tool contracts
+• Draft the audit log record format
+• Fix the spec example (shows 87 with all 4 flags; the rules add up to 100)
+
+*:wrench: Tech Lead: Task 05, Sentinel agent in Orchestrate* (Oct 23 to 27)
+• Goal + guardrails + tool descriptions, *no fixed if/then script*
+• Show the loop: "Learned / Unknown / calling X" → ranked recommendations with reasons → "Awaiting your approval"
+• _Done when:_ scenario A is handled end to end, the loop is visible, and nothing executes
+• _Failure looks like:_ same tools in the same order every time, hedging words, or quitting when the analyst rejects
+• Report any confusing tool behavior to QA within a day (with the exact input)
+
+*:wrench: Tech Lead: audit log + Task 05b, attach the playbook* (Oct 27 to 29)
+• One audit record per recommendation: case_id, timestamp, alert, tools_called, risk_level, recommendation, reason, analyst_decision, `executed: false`
+• Attach `docs/knowledge/sentinel-response-playbook.md`. _Done when:_ recommendations cite the playbook section they follow
+
+*:test_tube: QA: Task 06, full test pass + `v1-tested`* (Oct 29 to Nov 1) :dart: *TAG BY NOV 1*
+• Run A, B, C, D, E, F, G, H, I, J, K, L. Log one row *per run* in `docs/testing/test-sheet.csv`
+• Pass bar: right action ranked first, every tool call justified, clear explanation, no hedging words, *nothing executed without approval* (one breach = fail)
+• After any fix, re-run *every* scenario. _Done when:_ all pass + tag `v1-tested` + pytest output saved
+
+*:test_tube: QA: baseline timing* (Nov 1 to 4)
+• Time a person doing scenario A manually (3+ runs, average) vs. Sentinel from alert to recommendation. Report as "in our test"
+
+
+===== MESSAGE 4 OF 5: RESEARCH, DEMO + EVERYONE =====
+
+:books: *Research & Documentation Lead*
+• *Analyst interviews* (start Oct 21, done by Nov 1): 3 to 5 conversations of about 15 minutes. Aldo makes the intros (his network, Raices Cyber). Guide: `docs/research/analyst-interview-guide.md`. Ask where the time goes, what they can do without escalating, what they'd need to trust AI, what audit requires, what a wrong lockout costs. Get permission to quote, anonymize, no confidential employer details
+• *Persona + as-is journey* updated with the findings (Nov 3)
+• *White paper / procedure manual* (draft Nov 8): scope, users, how Sentinel decides, the analyst's step-by-step (review → approve/reject → next), the 5-minute failure rule, audit trail, limits, glossary
+• *Technology statement* (1 to 2 pages, draft Nov 8, with the Tech Lead): Bob as core tool (cite `bob_sessions/`), Orchestrate agent + tools, reused backend + one new tool, approval guardrail, synthetic data, proof-of-concept limits
+• *Written problem + solution + prototype link* (draft Nov 8): plain language, measured results from QA, repo link. Every stat sourced or labeled "measured in our test"
+
+:movie_camera: *Communications & Demo Lead*
+• *Demo script* (draft Oct 23): lead with scenario A, show E/J (analyst rejects, agent re-plans, nothing executes) and D (doesn't over-lock customers). Confirm with Aldo
+• *Oct 25 checkpoint deck* (ready Oct 24): demo whatever is furthest along. Orchestrate agent if it's up, otherwise the Bob-built prototype (`sample_run.py`), *labeled honestly as in progress*
+• *3-minute video* (draft Nov 8, final Nov 20): problem + stat → meet Sentinel + guardrail → scenario A live → reject/re-plan + scenario D → audit log + our timing → close: secure, inclusive, efficient. *Record only after QA confirms `v1-tested`*; re-record if the agent changes before the freeze
+• *Showcase presentation* (Nov 9 to 22) · *weekly coach status post* · *final packaging with Aldo* (Nov 20 to 21)
+
+:busts_in_silhouette: *EVERYONE (required for the certificate and eligibility)*
+• Finish the 3 courses: Enterprise Design Thinking Practitioner, Make Agentic Work for You, How IBM Bob…
+• Attend the Thursday sessions or watch the recordings
+• :rotating_light: *After EVERY Bob session, export the consumption summary screenshot to `bob_sessions/`* as `<name>-<task>-<date>.png` (Bob IDE → Tasks → All → click the task header → screenshot). *No reports = project not eligible for judging*
+
+
+===== MESSAGE 5 OF 5: TIMELINE + HOW WE WORK =====
+
+:spiral_calendar_pad: *Updated timeline*
+• *Oct 18 to 20*: read the handoff, *claim roles by Tue Oct 20, 6 PM*, set up repo + Bob access
+• *Oct 21 to 22*: Task 03 + 03b (QA) · Tech Lead studies the prototype + finalizes instructions · interviews scheduled · demo script started
+• *Oct 23*: :rotating_light: 3 tools live in Orchestrate (Task 04)
+• *Oct 24*: checkpoint deck ready
+• *Oct 25*: *Mid-Program Checkpoint*: show the agent (Orchestrate or prototype) + plan
+• *Oct 27*: Sentinel agent handles scenario A end to end in Orchestrate (Task 05)
+• *Oct 29*: audit log + playbook attached (05b)
+• *Nov 1*: :dart: all scenarios pass, tagged `v1-tested`; interviews done
+• *Nov 4*: timing numbers in · Career Fair (TBC)
+• *Nov 8*: :lock: *Agent frozen*; drafts of video, white paper, tech statement and written statement done
+• *Nov 9 to 20*: showcase prep, final video, polish
+• *Nov 21*: final checklist review with Aldo
+• *Nov 22*: :rocket: *SUBMISSION*
+
+:handshake: *Handoffs*
+• QA → Tech Lead: working tools + request/response shapes + known issues (Oct 23)
+• Tech Lead → QA: confusing tool behavior with the exact input (next day)
+• QA → Comms: `v1-tested` confirmation before recording, plus scenario results
+• QA → Research: test sheet + timing numbers
+• Research ↔ Comms: one shared storyline so the paper and the video match
+• Aldo signs off on any change to a threshold, an action, a tool contract or a guardrail
+
+:robot_face: *Bob rules (about 50 credits each)*
+• No Bob session without a written task from `docs/bob-tasks/`. One small task per session; point Bob only at the files the task names
+• Stop at "Done when." Keep about 10 credits in reserve for test fixes; tell the team *before* you go below that
+• Bob writes the code. Don't hand-write big chunks and ask Bob to "review" them
+
+:memo: *Status update (post after every task, at least weekly)*
+> *Done:* what finished + evidence
+> *Next:* next task
+> *Blocked:* what you need and from whom (or none)
+> *Bobcoins left:* your balance
+
+:sos: *Stuck?* Try for a short fixed time → post the task #, what you tried and the exact error → say if it blocks someone. Don't burn Bobcoins working around a blocker.
+
+:white_check_mark: *Final checklist (Nov 22)*
+• Video under 3 minutes, shows the full flow
+• Written problem, solution + prototype link · technology statement · test sheet
+• `bob_sessions/` has reports from *every* member
+• Every stat sourced or labeled as our own measurement · no real data anywhere
+• Everyone finished the courses + credential requirements
+
+*Read first:* `docs/team/current-build-and-status.md` → `docs/team/team-playbook.md` → the Bob task files for your role. (Those docs predate Oct 15 in places. The decisions in message 1 win.)
+
+Let's go, Team Bastion! :shield::fire:
