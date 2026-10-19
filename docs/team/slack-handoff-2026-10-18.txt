@@ -25,6 +25,12 @@ Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login a
 • Analyst interviews, our own timing, all written deliverables, video
 • :camera_with_flash: Export the 2 existing Bob session screenshots to `bob_sessions/` (Aldo)
 
+*:rotating_light: Week 6 must-dos from the program (needed for the Career Fair)*
+1. *All 6 SkillsBuild courses + the W6 deliverable uploaded on the platform, by Sun Oct 25* (everyone, see message 4)
+2. *Roadmap with tasks, owners and deadlines:* this handoff is our roadmap. Owners get filled in when you claim roles in message 2
+3. *Ugly MVP you can demonstrate:* :white_check_mark: we have one. The Bob-built prototype runs today (`py sample_run.py`, 21/21 tests passing)
+4. *Backend + AI system design:* :white_check_mark: the backend is live on Render and the design is in `docs/build-spec.md`. Next is wiring it into Orchestrate (Tasks 03 to 05)
+
 *:pushpin: Latest decisions (these override anything older you read)*
 1. One agent, not four. Reuse the existing backend (`CyberShield_IV`) plus *one* new tool.
 2. Recommendations are ranked best to lowest, each with a reason. Sentinel is decisive: no "probably" or "most likely."
@@ -88,6 +94,7 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 *:test_tube: QA: Task 03b, 5-minute failure count inside `assess_login`* (Oct 21 to 22)
 • Add the failure count to the live endpoint in `CyberShield_IV` (`src/iam/assess.py`). Rule: 2+ failures in 5 min flags the case
 • Update the prototype in `sentinel_iam/tools/assess_login.py` to the same rule (it still says 15 min / 4+)
+• Fix in the same session: on a Medium case (`sample_run.py`, mgarcia), the prototype ranks "Block session" *above* step-up MFA. The rule is Medium → step-up MFA first
 • Add scenarios I, K, L to `tests/scenarios.json`
 • _Evidence:_ responses for 0, 1, 2 and 3 failures, with the expected behavior beside each
 
@@ -139,7 +146,13 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 • *Showcase presentation* (Nov 9 to 22) · *weekly coach status post* · *final packaging with Aldo* (Nov 20 to 21)
 
 :busts_in_silhouette: *EVERYONE (required for the certificate and eligibility)*
-• Finish the 3 courses: Enterprise Design Thinking Practitioner, Make Agentic Work for You, How IBM Bob…
+• :rotating_light: *Finish all 6 IBM SkillsBuild courses + upload the W6 deliverable by Sun Oct 25* (required for the Career Fair): https://skills.yourlearning.ibm.com/activity/PLAN-9EA316BCA5D5
+  1. Enterprise Design Thinking Practitioner
+  2. Unleashing the Power of AI Agents
+  3. Introduction to Retrieval Augmented Generation
+  4. The Rise of Multiagent Systems
+  5. How IBM Bob and AI Tools Are Changing the Way Solutions Are Built
+  6. Lab: Troubleshoot Your Code Using IBM Bob
 • Attend the Thursday sessions or watch the recordings
 • :rotating_light: *After EVERY Bob session, export the consumption summary screenshot to `bob_sessions/`* as `<name>-<task>-<date>.png` (Bob IDE → Tasks → All → click the task header → screenshot). *No reports = project not eligible for judging*
 
@@ -151,7 +164,7 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 • *Oct 21 to 22*: Task 03 + 03b (QA) · Tech Lead studies the prototype + finalizes instructions · interviews scheduled · demo script started
 • *Oct 23*: :rotating_light: 3 tools live in Orchestrate (Task 04)
 • *Oct 24*: checkpoint deck ready
-• *Oct 25*: *Mid-Program Checkpoint*: show the agent (Orchestrate or prototype) + plan
+• *Oct 25*: :rotating_light: *all 6 courses + W6 deliverable done (everyone)* · *Mid-Program Checkpoint*: show the agent (Orchestrate or prototype) + plan
 • *Oct 27*: Sentinel agent handles scenario A end to end in Orchestrate (Task 05)
 • *Oct 29*: audit log + playbook attached (05b)
 • *Nov 1*: :dart: all scenarios pass, tagged `v1-tested`; interviews done
@@ -187,7 +200,7 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 • Written problem, solution + prototype link · technology statement · test sheet
 • `bob_sessions/` has reports from *every* member
 • Every stat sourced or labeled as our own measurement · no real data anywhere
-• Everyone finished the courses + credential requirements
+• Everyone finished all 6 courses + credential requirements
 
 *Read first:* `docs/team/current-build-and-status.md` → `docs/team/team-playbook.md` → the Bob task files for your role. (Those docs predate Oct 15 in places. The decisions in message 1 win.)
 
