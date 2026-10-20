@@ -1,0 +1,64 @@
+:computer: *Sentinel IAM: Backend code*
+
+Our backend reuses our existing FastAPI service (CyberShield) and adds one new tool, `assess_login`, built with IBM Bob. Both repos are public:
+
+• *Sentinel IAM* (agent instructions, tests, Bob session reports, docs): https://github.com/PC-DigitalSolutions/IBM-Sentinel-IAM
+• *Backend* (FastAPI service): https://github.com/PC-DigitalSolutions/CyberShield_IV
+  ◦ New tool, scoring logic: https://github.com/PC-DigitalSolutions/CyberShield_IV/blob/main/src/iam/assess.py
+  ◦ Endpoint: `src/api/main.py`, `POST /iam/assess-login`
+  ◦ Seed data (synthetic): `data/iam/baselines.json`
+  ◦ Tests: `tests/test_assess_login.py`
+
+*The new endpoint* (`src/api/main.py`):
+```
+class LoginAlert(BaseModel):
+    user_id: str
+    ip: str
+    device_id: str
+    geo: str
+    timestamp: str
+
+@app.post("/iam/assess-login", operation_id="assess_login")
+async def iam_assess_login(alert: LoginAlert):
+    """Score a suspicious-login alert against the user's baseline:
+    impossible travel, threat-listed IP, new device, off-hours."""
+    try:
+        return _assess_login_fn(alert.model_dump(), _IAM_SEED)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Unknown user")
+```
+
+*The scoring core* (`src/iam/assess.py`, deterministic, no LLM, no network):
+```
+# 1. impossible_travel: distance since last login / hours > 900 km/h
+if speed > scoring["impossible_travel_kmh"]:
+    flags.append("impossible_travel"); points += scoring["impossible_travel"]   # +35
+# 2. ip_on_threat_list
+if req["ip"] in threat_ips:
+    flags.append("ip_on_threat_list"); points += scoring["ip_on_threat_list"]   # +30
+# 3. new_device
+if req["device_id"] not in user.get("known_devices", []):
+    flags.append("new_device"); points += scoring["new_device"]                 # +25
+# 4. off_hours
+if not (h_start <= utc_hour < h_end):
+    flags.append("off_hours"); points += scoring["off_hours"]                   # +10
+
+risk_score = min(points, 100)   # 0-24 Low · 25-49 Medium · 50-79 High · 80+ Critical
+```
+
+*Live example: account-takeover test case*
+Request:
+```
+POST /iam/assess-login
+{"user_id": "jdoe", "ip": "203.0.113.66", "device_id": "win-unknown-7f2",
+ "geo": "Lagos, NG", "timestamp": "2026-10-02T03:14:00Z"}
+```
+Response:
+```
+{"risk_score": 100, "risk_level": "Critical",
+ "flags": ["impossible_travel", "ip_on_threat_list", "new_device", "off_hours"],
+ "baseline": {"usual_geo": "Newark, US", "usual_hours_utc": [12, 23], "known_devices": 2},
+ "explanation": "Login from Lagos, NG after a recent Newark, US session; IP is on the threat list; unrecognized device; outside usual hours (03:00 UTC)."}
+```
+
+The Sentinel agent on watsonx Orchestrate calls this as a tool, alongside `get_live_threats` and `analyze_signal`, then ranks its recommendations for the analyst to approve. All data is synthetic (fictional users, documentation-range IPs).
