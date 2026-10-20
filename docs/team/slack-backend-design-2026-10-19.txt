@@ -1,0 +1,47 @@
+:building_construction: *Team Bastion | Sentinel IAM: Backend & AI System Design* (Week 6)
+
+*What it does:* Sentinel is one AI agent that triages a bank's suspicious-login alerts. It picks which tools to call, explains the risk in plain language, and ranks its recommended responses, each with a reason. *A human analyst approves every action; Sentinel never executes one.*
+
+*:arrows_counterclockwise: How it flows*
+```
+Login alert (user, IP, device, location, time)
+        │
+        ▼
+Sentinel agent (watsonx Orchestrate) ── decides which tools it needs
+        │
+        ├─► assess_login      → risk score, level, flags, user baseline
+        ├─► get_live_threats  → does the IP/technique match a current campaign?
+        └─► analyze_signal    → second opinion on borderline cases
+        │
+        ▼
+Risk verdict + plain-language reason + ranked recommendations
+        │
+        ▼
+Analyst: Approve / Override / Reject  →  audit log (executed only after approval)
+```
+
+*:jigsaw: Components*
+• *AI layer:* one native agent on *watsonx Orchestrate*. It gets a goal, guardrails and tool descriptions, *not* a fixed script, so it chooses its own investigation path and stops when the evidence is enough
+• *Backend:* existing FastAPI service (`CyberShield_IV`), *live at* https://cybershield-iv.onrender.com. We reused it and added *one* new endpoint
+• *Tools (3):*
+  1. `assess_login`: `POST /iam/assess-login` · *new, built with IBM Bob* · deterministic scoring, no LLM: impossible travel +35, threat-listed IP +30, new device +25, off-hours +10 → Low / Medium / High / Critical
+  2. `get_live_threats`: `GET /threats/live` · reused · live threat feed (being re-pointed to banking threats)
+  3. `analyze_signal`: `GET /analyze` · reused · AI analysis engine for a second opinion
+• *Knowledge base:* bank IAM response playbook (scoring rules, responses, 5-minute failure rule, audit requirements)
+• *Audit log:* one record per recommendation: tools called, risk, recommendation, reason, analyst decision, `executed: false` until approved
+• *Built with:* IBM Bob (core build tool, session reports in `bob_sessions/`)
+
+*:shield: Guardrails*
+• Recommend-then-approve: nothing executes without the analyst
+• Decisive: no hedging ("probably", "most likely"), every option has a reason
+• 2 failed logins in 5 minutes flags the case for investigation
+• Synthetic data only (fictional users, documentation-range IPs). No real customer data
+
+*:white_check_mark: Status today*
+• Backend live; `assess_login` live and tested. Scenario A (impossible travel from a threat-listed IP at 3 AM) returns *100 / Critical* with all 4 flags
+• Working MVP: Bob-built prototype of the full agent loop with ranked actions and the approval gate, *21/21 tests passing*
+• *Next:* banking threat feed + 5-minute failure count (Task 03/03b) → import the 3 tools into Orchestrate (04) → build the agent in Orchestrate (05) → full test pass of 12 scenarios, tagged `v1-tested` (06)
+
+*:bar_chart: Why it matters:* an alert waits *55 min* before an analyst picks it up (Prophet Security/ViB 2026), while attackers break out in *29 min* (CrowdStrike 2026). A financial-services breach averages *$6.3M* (IBM 2026).
+
+Repo: https://github.com/PC-DigitalSolutions/IBM-Sentinel-IAM
