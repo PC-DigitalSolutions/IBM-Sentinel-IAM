@@ -2,7 +2,7 @@
 
 :shield: *Team Bastion | Sentinel IAM: Handoff & Role Sign-Up* (updated Oct 18)
 
-Hi team! This is the official handoff. There are 5 messages: overview → pick your role → technical tasks → research/demo tasks → timeline and rules. Please read them all and *claim your role in message 2 by Tue Oct 20, 6 PM*.
+Hi team! This is the official handoff. *As of today, Aldo has handed the project over to Team Bastion.* The groundwork is done: problem, research, design, the first Bob build and a working prototype. From here, *the four of you own the build and the deliverables*. Aldo stays on as Team Lead for guidance and sign-off, not day-to-day tasks. There are 5 messages: overview → pick your role → technical tasks → research/demo tasks → timeline and rules. Please read them all and *claim your role in message 2 by Tue Oct 20, 6 PM*.
 
 *What we're building (one sentence)*
 Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login alert, chooses which tools to call, explains the risk in plain language, and ranks its recommended responses, each with a reason. *A human analyst approves every action. Sentinel never executes anything itself.*
@@ -14,6 +14,7 @@ Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login a
 • :white_check_mark: *Agent instructions drafted* in `agents/sentinel.instructions.md`
 • :white_check_mark: *Response playbook written* (`docs/knowledge/sentinel-response-playbook.md`). It's the content for Task 05b and only needs attaching
 • :white_check_mark: *Test plan* with scenarios A to H and J (`tests/scenarios.json`), plus the test sheet and timing protocol in `docs/testing/`
+• :white_check_mark: *Aldo's Bob session screenshots exported* to `bob_sessions/` (Task 02 + prototype)
 • :white_check_mark: *Research evidence re-verified with 2026 sources (Oct 19)*: `docs/research/research-evidence.md`. *Only use numbers from this file.* Headline: alerts wait 55 min for an analyst (Prophet/ViB 2026), attackers break out in 29 min (CrowdStrike 2026), credential abuse is in 39% of breaches (Verizon DBIR 2026), and a bank breach costs $6.3M (IBM 2026). :warning: The old "#1 vector", "$6.08M" and "86%" claims are outdated or unsourced. Don't use them
 
 *:hourglass_flowing_sand: Still to do*
@@ -23,7 +24,6 @@ Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login a
 • Task 05 + 05b: build the agent in Orchestrate and attach the playbook (not started)
 • Task 06: full test pass + `v1-tested` tag
 • Analyst interviews, our own timing, all written deliverables, video
-• :camera_with_flash: Export the 2 existing Bob session screenshots to `bob_sessions/` (Aldo)
 
 *:rotating_light: Week 6 must-dos from the program (needed for the Career Fair)*
 1. *All 6 SkillsBuild courses + the W6 deliverable uploaded on the platform, by Sun Oct 25* (everyone, see message 4)
@@ -45,8 +45,8 @@ Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login a
 
 *How to claim:* react to this message with the role's emoji *and* reply in thread with "I'm taking ___". First come, first served, one role each. If two people want the same role, talk it out in the thread. Aldo breaks ties. *Deadline: Tue Oct 20, 6 PM.* Any role still open then gets assigned.
 
-:crown: *Team Lead: Aldo (taken)*
-Guidance, coach/program contact, final call on design changes, reviews and approvals, submits the final package.
+:crown: *Team Lead: Aldo (taken; handed off Oct 19)*
+Advisor role: answers questions, signs off on design changes and approves the final package. *Not assigned build or writing tasks.* Coach/program questions go to the coach on Slack.
 
 :wrench: *Technical Lead* (open)
 _You own the build: the Sentinel agent itself._
@@ -66,7 +66,7 @@ _Good fit if:_ you like APIs, testing, and being the person who says "it actuall
 
 :books: *Research & Documentation Lead* (open)
 _You prove the problem is real and write the story down._
-• 3 to 5 analyst interviews (Aldo makes intros)
+• 3 to 5 analyst interviews (find contacts yourself; Aldo can suggest names)
 • White paper / procedure manual
 • Written problem + solution + prototype link
 • Technology statement (final text, with the Tech Lead)
@@ -76,7 +76,7 @@ _Good fit if:_ you like interviewing people, research and writing. _Bob use:_ lo
 _You turn the tested agent into what the judges see._
 • Demo script, Oct 25 checkpoint presentation
 • 3-minute video, showcase presentation
-• Weekly Slack status post for the coach; final packaging with Aldo
+• Weekly Slack status post for the coach; *final packaging and submission* (Aldo signs off)
 _Good fit if:_ you like presenting, video and storytelling. _Bob use:_ low (still need 1+ session for `bob_sessions/`).
 
 :information_source: *Everyone must run at least one real Bob session and export its screenshot.* Each member's own reports count toward eligibility, so pick a role knowing that.
@@ -133,7 +133,7 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 ===== MESSAGE 4 OF 5: RESEARCH, DEMO + EVERYONE =====
 
 :books: *Research & Documentation Lead*
-• *Analyst interviews* (start Oct 21, done by Nov 1): 3 to 5 conversations of about 15 minutes. Aldo makes the intros (his network, Raices Cyber). Guide: `docs/research/analyst-interview-guide.md`. Ask where the time goes, what they can do without escalating, what they'd need to trust AI, what audit requires, what a wrong lockout costs. Get permission to quote, anonymize, no confidential employer details
+• *Analyst interviews* (start Oct 21, done by Nov 1): 3 to 5 conversations of about 15 minutes. Find your own contacts (LinkedIn, Raices Cyber, school security clubs, IAM/SOC professionals you know). Aldo can suggest names if you ask. Guide: `docs/research/analyst-interview-guide.md`. Ask where the time goes, what they can do without escalating, what they'd need to trust AI, what audit requires, what a wrong lockout costs. Get permission to quote, anonymize, no confidential employer details
 • *Persona + as-is journey* updated with the findings (Nov 3)
 • *White paper / procedure manual* (draft Nov 8): scope, users, how Sentinel decides, the analyst's step-by-step (review → approve/reject → next), the 5-minute failure rule, audit trail, limits, glossary
 • *Technology statement* (1 to 2 pages, draft Nov 8, with the Tech Lead): Bob as core tool (cite `bob_sessions/`), Orchestrate agent + tools, reused backend + one new tool, approval guardrail, synthetic data, proof-of-concept limits
@@ -143,7 +143,7 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 • *Demo script* (draft Oct 23): lead with scenario A, show E/J (analyst rejects, agent re-plans, nothing executes) and D (doesn't over-lock customers). Confirm with Aldo
 • *Oct 25 checkpoint deck* (ready Oct 24): demo whatever is furthest along. Orchestrate agent if it's up, otherwise the Bob-built prototype (`sample_run.py`), *labeled honestly as in progress*
 • *3-minute video* (draft Nov 8, final Nov 20): problem + stat → meet Sentinel + guardrail → scenario A live → reject/re-plan + scenario D → audit log + our timing → close: secure, inclusive, efficient. *Record only after QA confirms `v1-tested`*; re-record if the agent changes before the freeze
-• *Showcase presentation* (Nov 9 to 22) · *weekly coach status post* · *final packaging with Aldo* (Nov 20 to 21)
+• *Showcase presentation* (Nov 9 to 22) · *weekly coach status post* · *final packaging and submission on the platform* (Nov 20 to 22, Aldo signs off)
 
 :busts_in_silhouette: *EVERYONE (required for the certificate and eligibility)*
 • :rotating_light: *Finish all 6 IBM SkillsBuild courses + upload the W6 deliverable by Sun Oct 25* (required for the Career Fair): https://skills.yourlearning.ibm.com/activity/PLAN-9EA316BCA5D5
@@ -171,7 +171,7 @@ Task prompts live in `docs/bob-tasks/`. Each has a "Done when" line. Stop the Bo
 • *Nov 4*: timing numbers in · Career Fair (TBC)
 • *Nov 8*: :lock: *Agent frozen*; drafts of video, white paper, tech statement and written statement done
 • *Nov 9 to 20*: showcase prep, final video, polish
-• *Nov 21*: final checklist review with Aldo
+• *Nov 21*: final checklist review (whole team), Aldo signs off
 • *Nov 22*: :rocket: *SUBMISSION*
 
 :handshake: *Handoffs*
