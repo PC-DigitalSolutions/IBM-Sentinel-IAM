@@ -2,7 +2,7 @@
 
 :shield: *Team Bastion | Sentinel IAM: Handoff & Role Sign-Up* (updated Oct 18)
 
-Hi team! This is the official handoff. *As of today, Aldo has handed the project over to Team Bastion.* The groundwork is done: problem, research, design, the first Bob build and a working prototype. From here, *the four of you own the build and the deliverables*. Aldo stays on as Team Lead for guidance and sign-off, not day-to-day tasks. There are 5 messages: overview → pick your role → technical tasks → research/demo tasks → timeline and rules. Please read them all and *claim your role in message 2 by Tue Oct 20, 6 PM*.
+Hi team! This is the official handoff. *As of today, Aldo has handed the project over to Team Bastion.* The groundwork is done: problem, research, design, the first Bob build and a working prototype. From here, *the other four members of our 5-person team own the build and the deliverables*. Aldo stays on as Team Lead for guidance and sign-off, not day-to-day tasks. There are 5 messages: overview → pick your role → technical tasks → research/demo tasks → timeline and rules. Please read them all and *claim your role in message 2 by Tue Oct 20, 6 PM*.
 
 *What we're building (one sentence)*
 Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login alert, chooses which tools to call, explains the risk in plain language, and ranks its recommended responses, each with a reason. *A human analyst approves every action. Sentinel never executes anything itself.*
@@ -41,7 +41,7 @@ Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login a
 
 ===== MESSAGE 2 OF 5: :raised_hand: PICK YOUR ROLE =====
 
-:raised_hand: *Choose your role!* Aldo stays Team Lead. There are *4 open roles for 4 of us*.
+:raised_hand: *Choose your role!* Team Bastion has *5 members*: Aldo stays Team Lead, and there are *4 open roles, one for each of the other 4 members*.
 
 *How to claim:* react to this message with the role's emoji *and* reply in thread with "I'm taking ___". First come, first served, one role each. If two people want the same role, talk it out in the thread. Aldo breaks ties. *Deadline: Tue Oct 20, 6 PM.* Any role still open then gets assigned.
 
