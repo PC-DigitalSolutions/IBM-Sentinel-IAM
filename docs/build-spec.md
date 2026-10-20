@@ -11,7 +11,7 @@
 
 ## 1. One problem, one solution
 
-**Problem.** A bank analyst gets a suspicious-login alert and spends about an hour investigating it by hand: 56 minutes before the first action and 70 minutes to fully investigate. Stolen credentials are the #1 way attackers get in (88% of basic web-app attacks). In the financial sector, a breach costs $6.08M on average. *(See `research-evidence.md`.)*
+**Problem.** A bank analyst gets a suspicious-login alert and spends about an hour investigating it by hand: 55 minutes before an analyst picks up the alert and about 75 minutes to investigate it thoroughly (Prophet Security / ViB, 2026). Attackers break out in 29 minutes on average (CrowdStrike, 2026). Credential abuse appears in 39% of breaches (Verizon DBIR, 2026). In financial services, a breach costs $6.3M on average (IBM, 2026). *(See `docs/research/research-evidence.md`.)*
 
 **Solution.** **Sentinel**, a single AI agent for SOC/IAM analysts at a bank. Given a suspicious-login alert, Sentinel **decides which tools to call**, correlates the results, explains the risk in plain language, and presents **ranked recommendations, best first, each with a reason**. The responses are *no action*, *step-up MFA*, *revoke session*, and *reset credential*. **A human approves the action before anything happens.**
 

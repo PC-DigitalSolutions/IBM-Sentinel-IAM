@@ -14,10 +14,11 @@ This is a proof of concept, not a production platform. It shows the agentic loop
 
 ## 2. Why it matters (evidence)
 
-- Analysts see about 960 alerts a day; 56 minutes pass before first action and 70 minutes to fully investigate one alert.
-- Stolen credentials are the #1 initial access vector.
-- A financial-sector breach averages $6.08M.
-- 86% of practitioners don't let AI execute even minor remediation without human oversight, which is why Sentinel only recommends.
+- An alert waits 55 minutes before an analyst picks it up, and a thorough investigation takes about 75 minutes (Prophet Security / ViB, 2026).
+- Attackers break out in 29 minutes on average (CrowdStrike, 2026).
+- Credential abuse appears in 39% of breaches (Verizon DBIR, 2026).
+- A financial-services breach averages $6.3M (IBM, 2026).
+- 0% of SOC teams give AI full unsupervised autonomy; 44% use AI that recommends while a human executes (Prophet / ViB, 2026). That is why Sentinel only recommends.
 
 Full sources are in the research evidence doc.
 

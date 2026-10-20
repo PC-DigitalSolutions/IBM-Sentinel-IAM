@@ -5,7 +5,7 @@ Built for the IBM SkillsBuild AI Experiential Learning Lab (Fall 2026), Banking 
 ## Scope (read first)
 **One agent. One problem. One solution.** (Coach direction, Sept 25 2026.) Do not add more agents.
 
-- **Problem:** a bank SOC/IAM analyst needs about an hour to investigate one suspicious login by hand. Stolen credentials are the #1 initial access vector.
+- **Problem:** a bank SOC/IAM analyst needs about an hour to investigate one suspicious login by hand. Credential abuse appears in 39% of breaches (Verizon DBIR 2026). Sources: `docs/research/research-evidence.md`.
 - **Solution:** **Sentinel**, a single agent. Given a suspicious-login alert, it chooses which tools to call, explains the risk in plain language, and presents recommendations ranked best to lowest, each with a reason. A human approves every action, and Sentinel never executes it.
 
 ## The agent: Sentinel

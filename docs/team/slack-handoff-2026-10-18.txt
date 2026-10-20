@@ -14,7 +14,7 @@ Sentinel is *one* AI agent on watsonx Orchestrate. It takes a suspicious-login a
 • :white_check_mark: *Agent instructions drafted* in `agents/sentinel.instructions.md`
 • :white_check_mark: *Response playbook written* (`docs/knowledge/sentinel-response-playbook.md`). It's the content for Task 05b and only needs attaching
 • :white_check_mark: *Test plan* with scenarios A to H and J (`tests/scenarios.json`), plus the test sheet and timing protocol in `docs/testing/`
-• :white_check_mark: *Research evidence* (secondary sources) and the build spec
+• :white_check_mark: *Research evidence re-verified with 2026 sources (Oct 19)*: `docs/research/research-evidence.md`. *Only use numbers from this file.* Headline: alerts wait 55 min for an analyst (Prophet/ViB 2026), attackers break out in 29 min (CrowdStrike 2026), credential abuse is in 39% of breaches (Verizon DBIR 2026), and a bank breach costs $6.3M (IBM 2026). :warning: The old "#1 vector", "$6.08M" and "86%" claims are outdated or unsourced. Don't use them
 
 *:hourglass_flowing_sand: Still to do*
 • Task 03: re-point the threat feed to banking

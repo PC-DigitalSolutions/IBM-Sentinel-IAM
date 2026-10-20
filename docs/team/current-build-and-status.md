@@ -29,13 +29,15 @@ When an account looks compromised, an analyst has to correlate three things by h
 
 The public research we compiled supports this:
 
-- Security teams average about 960 alerts per day, and about 40% of alerts are never investigated.
-- It takes about 56 minutes before the first action on an alert, and about 70 minutes to fully investigate one.
-- Stolen credentials are the number one way attackers get in.
-- A breach in the financial sector averages $6.08M, and teams using extensive security AI and automation resolve breaches about 80 days faster.
-- 86% of practitioners will not let AI carry out even minor remediation without human oversight. That is why our design is recommend-then-approve.
+*(Updated Oct 19, 2026 with 2026 sources. Several older figures were outdated or unsourced; see the corrections table in `research-evidence.md`.)*
 
-The sources are in `research-evidence.md`. Please cite them when you write anything for submission.
+- An alert waits 55 minutes on average before an analyst picks it up, and a thorough investigation takes about 75 minutes. About 28% of alerts are never investigated (Prophet Security / ViB, 2026).
+- Attackers break out in 29 minutes on average; the fastest took 27 seconds (CrowdStrike, 2026).
+- Credential abuse appears in 39% of breaches (Verizon DBIR, 2026).
+- A financial-services breach averages $6.3M; security AI and automation cut breach costs by almost $2M (IBM, 2026).
+- No SOC team surveyed gives AI full unsupervised autonomy, and 44% use AI that recommends while a human executes (Prophet / ViB, 2026). That is why our design is recommend-then-approve.
+
+The sources are in `docs/research/research-evidence.md`. Please cite them when you write anything for submission.
 
 ## 4. What Sentinel does
 
@@ -119,7 +121,7 @@ This table separates what is confirmed from what is not.
 | Item | Status | Notes |
 | --- | --- | --- |
 | Challenge framing, persona and as-is journey | Drafted | The empathy map and as-is journey are drafts and still need validation with real analysts |
-| Secondary research | Done (Sept 24) | `research-evidence.md` |
+| Secondary research | Re-verified Oct 19 with 2026 sources | `docs/research/research-evidence.md` |
 | Build spec v2, single agent | Done (Sept 25) | `build-spec.md` |
 | Coach feedback incorporated | Done | 4 agents reduced to 1 |
 | Task 01: repo scaffold and `AGENTS.md` | Done | Single-agent `AGENTS.md` in the repo |
@@ -188,7 +190,7 @@ Task prompts live in `sentinel-iam/docs/bob-tasks/`.
 ## 12. Known risks and open items
 
 1. **Primary research is missing.** We have public data but no conversations with real analysts. Three to five short conversations would strengthen the persona and the problem.
-2. **The "60 minutes down to under one minute" claim is not yet measured.** The 56 and 70 minute figures are industry survey averages. We need our own timing of a manual walkthrough versus Sentinel on the same alert.
+2. **The "60 minutes down to under one minute" claim is not yet measured.** The 55 and 75 minute figures are industry survey averages. We need our own timing of a manual walkthrough versus Sentinel on the same alert.
 3. **All data is synthetic.** That is acceptable for a proof of concept, but we must say so openly.
 4. **A small inconsistency in the spec.** The `assess_login` example response shows a score of 87 with all four flags. By the scoring rules, all four flags add up to 100 (Scenario A). The tests use 100. Please correct the example in the spec.
 5. **Scope.** Seven scenarios passing cleanly with a polished demo beats additional features.
