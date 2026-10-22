@@ -1,3 +1,5 @@
+> ⚠️ **Historical (Sept 2026).** Written for the retired 4-agent design and a 3-member team. Don't build from it. Current design: [build-spec.md](build-spec.md). Doc index: [README.md](README.md).
+
 # Sentinel IAM — Master Knowledge Doc
 ### Team Bastion · IBM SkillsBuild AI Experiential Learning Lab · Banking & Financial Services
 

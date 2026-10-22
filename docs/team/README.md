@@ -1,5 +1,7 @@
 # Team docs (Team Bastion)
 
+> **New member?** Start with [../ONBOARDING.md](../ONBOARDING.md). Current status lives in [../STATUS.md](../STATUS.md). These files are background and history.
+
 > **Update, Oct 15, 2026 (Aldo):** the authentication-failure rule changed after these docs were exported. The rule is now **2 failed attempts within 5 minutes flags the case**; Sentinel then investigates and has a ranked recommendation ready, and a flagged case with a Low score ranks step-up MFA first. The 15-minute window and the 4+ tier described below are retired. The failure count lives inside `assess_login` (Task 03b). Where these docs differ, `docs/build-spec.md` and `agents/sentinel.instructions.md` are current.
 
 Exported from the team's Claude docs on Oct 15, 2026. All docs reflect the 5-member team. Read in this order:

@@ -1,5 +1,7 @@
 # Bob task queue
 
+> Live status, owners and dates are in [../STATUS.md](../STATUS.md). The table below is the task list; STATUS.md wins if they differ.
+
 Hand Bob **one file per session**. Each has a "Done when" condition, so stop there. After each session, screenshot the task consumption summary into `bob_sessions/` (`aldo-task-02-2026-09-29.png`).
 
 | # | Task | Est. credits | Status |

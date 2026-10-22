@@ -1,3 +1,5 @@
+> ⚠️ **Historical (Sept 2026).** This describes the retired 4-agent design. Don't build from it. Current design: [build-spec.md](build-spec.md). Doc index: [README.md](README.md).
+
 # Claude.ai Project — Custom Instructions
 ### (Paste the block below into the Project's "Set custom instructions" field)
 
