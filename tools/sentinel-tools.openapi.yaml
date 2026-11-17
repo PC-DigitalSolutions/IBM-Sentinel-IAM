@@ -12,8 +12,8 @@ paths:
       description: >
         Starting evidence for every alert. Returns a 0-100 risk score, a level
         (Low, Medium, High, Critical), flags (impossible_travel, ip_on_threat_list,
-        new_device, off_hours), the user's baseline, a plain explanation, and the
-        failed sign-ins in the last 5 minutes with failure_flag. 404 = unknown user.
+        new_device, off_hours), the user's baseline, and a plain explanation.
+        404 = unknown user.
       requestBody:
         required: true
         content:
@@ -33,7 +33,7 @@ paths:
   /threats/live:
     get:
       operationId: get_live_threats
-      summary: Current banking threat headlines
+      summary: Current cyber threat headlines
       description: >
         Use when the IP or the pattern could belong to an active campaign
         (credential theft, account takeover, phishing, MFA abuse).
