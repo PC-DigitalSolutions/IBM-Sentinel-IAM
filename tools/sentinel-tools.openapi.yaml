@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Sentinel IAM tools
+  version: 1.0.0
+servers:
+  - url: https://cybershield-iv.onrender.com
+paths:
+  /iam/assess-login:
+    post:
+      operationId: assess_login
+      summary: Score a login against the user's normal behavior
+      description: >
+        Starting evidence for every alert. Returns a 0-100 risk score, a level
+        (Low, Medium, High, Critical), flags (impossible_travel, ip_on_threat_list,
+        new_device, off_hours), the user's baseline, a plain explanation, and the
+        failed sign-ins in the last 5 minutes with failure_flag. 404 = unknown user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, ip, device_id, geo, timestamp]
+              properties:
+                user_id: {type: string, example: jdoe}
+                ip: {type: string, example: 203.0.113.66}
+                device_id: {type: string, example: win-unknown-7f2}
+                geo: {type: string, example: "Lagos, NG"}
+                timestamp: {type: string, example: "2026-10-02T03:14:00Z"}
+      responses:
+        "200": {description: Risk assessment}
+        "404": {description: Unknown user}
+  /threats/live:
+    get:
+      operationId: get_live_threats
+      summary: Current banking threat headlines
+      description: >
+        Use when the IP or the pattern could belong to an active campaign
+        (credential theft, account takeover, phishing, MFA abuse).
+      parameters:
+        - {name: limit, in: query, schema: {type: integer, default: 25, minimum: 1, maximum: 80}}
+      responses:
+        "200": {description: Rolling threat feed}
+  /analyze:
+    get:
+      operationId: analyze_signal
+      summary: Second opinion on one sentence describing the event
+      description: >
+        Use only when signals conflict or the case sits near a level boundary
+        and the other evidence does not settle it.
+      parameters:
+        - {name: signal, in: query, required: true, schema: {type: string}}
+      responses:
+        "200": {description: Verdict text and matched gates}
